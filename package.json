@@ -1,0 +1,29 @@
+{
+    "name": "firebaseapi",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "type": "module",
+    "license": "ISC",
+    "dependencies": {
+        "@firebase/auth": "^0.20.7",
+        "body-parser": "^1.20.0",
+        "cors": "^2.8.5",
+        "express": "^4.18.1",
+        "firebase": "^9.10.0",
+        "firebase-admin": "^11.0.1",
+        "google-sign-in": "^3.0.3",
+        "is-empty": "^1.2.0",
+        "jsonwebtoken": "^8.5.1",
+        "validator": "^13.7.0"
+    },
+    "devDependencies": {
+        "concurrently": "^7.4.0"
+    }
+}
