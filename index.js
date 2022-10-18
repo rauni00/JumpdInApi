@@ -28,6 +28,13 @@ app.get('/', (req, res) => {
 });
 //! auth with firebase auth
 app.post('/register', (req, res) => {
+	if (!req.body.email) {
+		return res.status(400).json({ email: 'email is require' });
+	} else {
+		if (!req.body.password) {
+			return res.status(400).json({ password: 'password is require' });
+		}
+	}
 	auth.createUserWithEmailAndPassword(req.body.email, req.body.password)
 		.then((newUser) => {
 			res.status(200).json({ msg: newUser });
@@ -63,10 +70,17 @@ app.post('/google/register', (req, res) => {
 
 //! login user
 app.post('/login', (req, res) => {
+	if (!req.body.email) {
+		return res.status(400).json({ email: 'email is require' });
+	} else {
+		if (!req.body.password) {
+			return res.status(400).json({ password: 'password is require' });
+		}
+	}
 	auth.signInWithEmailAndPassword(req.body.email, req.body.password)
-		.then((user) => {
+		.then((register) => {
 			db.collection('users')
-				.doc(user.user.uid)
+				.doc(register.user.uid)
 				.get()
 				.then((user) => {
 					if (!user.data()) {
@@ -83,12 +97,21 @@ app.post('/login', (req, res) => {
 				});
 		})
 		.catch((error) => {
-			res.json(error.code);
+			if (error.code == 'auth/wrong-password') {
+				res.status(400).json({ password: 'wrong-password' });
+			} else {
+				if (error.code == 'auth/user-not-found') {
+					res.status(400).json({ User: 'User not Found' });
+				}
+			}
 		});
 });
 
 // !Forget Password
 app.post('/forget', (req, res) => {
+	if (!req.body.email) {
+		return res.status(400).json({ email: 'email is require' });
+	}
 	auth.sendPasswordResetEmail(req.body.email)
 		.then((send) => {
 			res.json('Password reset email link sent');
