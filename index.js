@@ -79,22 +79,7 @@ app.post('/login', (req, res) => {
 	}
 	auth.signInWithEmailAndPassword(req.body.email, req.body.password)
 		.then((register) => {
-			db.collection('users')
-				.doc(register.user.uid)
-				.get()
-				.then((user) => {
-					if (!user.data()) {
-						res.status(400).json('User details not found');
-					} else {
-						let userDetails = {};
-						userDetails = user.data();
-						userDetails['id'] = user.id;
-						res.json(userDetails);
-					}
-				})
-				.catch((error) => {
-					res.json(error);
-				});
+			res.json(register);
 		})
 		.catch((error) => {
 			if (error.code == 'auth/wrong-password') {
