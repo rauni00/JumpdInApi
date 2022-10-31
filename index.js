@@ -20,7 +20,6 @@ try {
 }
 //! database connection
 const db = firebase.firestore();
-const ref = firebase.firestore;
 const auth = firebase.auth();
 
 app.get('/', (req, res) => {
@@ -243,6 +242,23 @@ app.post('/like', (req, res) => {
 	db.collection('posts')
 		.doc(req.body.PostId)
 		.update({ likes: firebase.firestore.FieldValue.arrayUnion(likes) })
+		.then((like) => {
+			res.json(like);
+		})
+		.catch((error) => {
+			res.json(error);
+		});
+});
+// ! Un-likes
+app.post('/Unlike', (req, res) => {
+	const likes = {
+		PostId: req.body.PostId,
+		userId: req.headers['uid'],
+		like: false,
+	};
+	db.collection('posts')
+		.doc(req.body.PostId)
+		.update({ likes: firebase.firestore.FieldValue.arrayRemove(likes) })
 		.then((like) => {
 			res.json(like);
 		})
