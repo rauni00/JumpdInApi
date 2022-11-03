@@ -187,6 +187,7 @@ app.post('/createPost', (req, res) => {
 		});
 });
 // ! Get Post of user
+
 app.get('/getPost', (req, res) => {
 	db.collection('posts')
 		.where('userId', '==', req.headers['uid'])
